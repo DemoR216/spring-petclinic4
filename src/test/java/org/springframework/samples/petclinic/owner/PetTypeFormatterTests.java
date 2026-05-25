@@ -28,7 +28,6 @@ import java.util.Locale;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledInNativeImage;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -39,7 +38,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
  * @author Colin But
  */
 @ExtendWith(MockitoExtension.class)
-@DisabledInNativeImage
 class PetTypeFormatterTests {
 
 	@Mock

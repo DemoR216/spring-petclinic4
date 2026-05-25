@@ -2,8 +2,10 @@ package org.springframework.samples.petclinic.system;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.fail;
@@ -38,14 +41,14 @@ public class I18nPropertiesSyncTest {
 
 	@Test
 	void checkNonInternationalizedStrings() throws Exception {
-		Path root = Path.of("src/main");
+		Path root = Paths.get("src/main");
 		List<Path> files;
 
 		try (Stream<Path> stream = Files.walk(root)) {
 			files = stream.filter(p -> p.toString().endsWith(".java") || p.toString().endsWith(".html"))
 				.filter(p -> !p.toString().contains("/test/"))
 				.filter(p -> !p.getFileName().toString().endsWith("Test.java"))
-				.toList();
+				.collect(Collectors.toList());
 		}
 
 		StringBuilder report = new StringBuilder();
@@ -78,7 +81,7 @@ public class I18nPropertiesSyncTest {
 			}
 		}
 
-		if (!report.isEmpty()) {
+		if (report.length() > 0) {
 			fail("Hardcoded (non-internationalized) strings found:\n" + report);
 		}
 	}
@@ -86,17 +89,17 @@ public class I18nPropertiesSyncTest {
 	@Test
 	void checkI18nPropertyFilesAreInSync() throws Exception {
 		List<Path> propertyFiles;
-		try (Stream<Path> stream = Files.walk(Path.of(I18N_DIR))) {
+		try (Stream<Path> stream = Files.walk(Paths.get(I18N_DIR))) {
 			propertyFiles = stream.filter(p -> p.getFileName().toString().startsWith(BASE_NAME))
 				.filter(p -> p.getFileName().toString().endsWith(PROPERTIES))
-				.toList();
+				.collect(Collectors.toList());
 		}
 
 		Map<String, Properties> localeToProps = new HashMap<>();
 
 		for (Path path : propertyFiles) {
 			Properties props = new Properties();
-			try (var reader = Files.newBufferedReader(path)) {
+			try (BufferedReader reader = Files.newBufferedReader(path)) {
 				props.load(reader);
 				localeToProps.put(path.getFileName().toString(), props);
 			}
@@ -130,7 +133,7 @@ public class I18nPropertiesSyncTest {
 			}
 		}
 
-		if (!report.isEmpty()) {
+		if (report.length() > 0) {
 			fail("Translation files are not in sync:\n" + report);
 		}
 	}
