@@ -3,19 +3,38 @@
 <html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'error')}">
 
 <body>
-  <img src="../static/resources/images/pets.png" th:src="@{/resources/images/pets.png}" />
-  <!-- Title: Something happened -->
-  <h2 th:text="#{somethingHappened}">Something happened...</h2>
 
-  <!-- Status-specific error message -->
-  <p th:switch="${status}">
-    <span th:case="404" th:text="#{error.404}">The requested page was not found.</span>
-    <span th:case="500" th:text="#{error.500}">An internal server error occurred.</span>
-    <span th:case="*" th:text="#{error.general}">An unexpected error occurred.</span>
-  </p>
+  <div class="text-center">
+    <img src="../static/resources/images/pets.png" th:src="@{/resources/images/pets.png}"
+      alt="Pets" class="img-responsive" style="max-width: 300px; margin: 0 auto;" />
 
-  <!-- Exception message (for developers) -->
-  <p th:text="${message}">Exception message</p>
+    <h2 th:text="#{somethingHappened}">Something happened...</h2>
+
+    <p th:switch="${status}" style="font-size: 1.2em;">
+      <span th:case="404" th:text="#{error.404.friendly}">
+        Ruh-roh! Our pets searched everywhere but couldn't fetch that page.
+      </span>
+      <span th:case="500" th:text="#{error.500.friendly}">
+        Our top veterinarians are looking into this. Please try again later!
+      </span>
+      <span th:case="*" th:text="#{error.general.friendly}">
+        Even our best-trained pets couldn't figure out what went wrong.
+      </span>
+    </p>
+
+    <p th:if="${status == 404}" style="font-size: 3em;">
+      &#128062;
+    </p>
+
+    <p>
+      <small th:text="${message}" class="text-muted">Exception message</small>
+    </p>
+
+    <a th:href="@{/}" class="btn btn-primary btn-lg" th:text="#{error.goHome}">
+      Take Me Home
+    </a>
+  </div>
+
 </body>
 
 </html>
