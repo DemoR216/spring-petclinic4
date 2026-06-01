@@ -14,7 +14,7 @@ See the presentation here:
 ## Run Petclinic locally
 
 Spring Petclinic is a [Spring Boot](https://spring.io/guides/gs/spring-boot) application built using [Maven](https://spring.io/guides/gs/maven/) or [Gradle](https://spring.io/guides/gs/gradle/).
-Java 11 or later is required for the build, and the application can run with Java 11 or newer.
+Java 17 or later is required for the build, and the application can run with Java 17 or newer.
 
 You first need to clone the project locally:
 
